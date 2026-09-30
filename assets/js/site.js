@@ -3,7 +3,8 @@
    2. Video slots: the placeholder frame stays until the video loads; autoplay (muted, loop) only when
       in view and only without prefers-reduced-motion; a pause/play toggle is always offered.
    3. Tiles: hero montage and gallery are driven by assets/gallery/manifest.json.
-      Missing entries or images that fail to load render as grey placeholders.
+      Missing entries or images that fail to load render as grey placeholders. An entry's optional "webp" is
+      served to grid/montage tiles through <picture> (PNG "src" is the fallback); the lightbox always shows the PNG.
    4. BibTeX copy button.
    5. ARIA tabs (arrow keys, Home/End), shared by the gallery (datasets, #hash) and the index page's figure tabs
       ([data-tabs]); the gallery also has a <dialog> lightbox for real images.
@@ -132,12 +133,18 @@
     var t = el(asButton ? "button" : "figure", "tile");
     if (asButton) t.type = "button";
     var img = el("img");
+    var host = t;
+    if (entry.webp) {
+      host = el("picture");
+      host.appendChild(el("source", null, { type: "image/webp", srcset: entry.webp }));
+      t.appendChild(host);
+    }
     img.src = entry.src;
     img.alt = entry.alt || ("STREAM-generated " + organLabel + " sample " + n + (entry.caption ? ": " + entry.caption : ""));
     img.width = 256; img.height = 256;
     img.decoding = "async";
     if (lazy) img.loading = "lazy";
-    t.appendChild(img);
+    host.appendChild(img);
     if (asButton) t.setAttribute("aria-label", "Open " + organLabel + " sample " + n);
     if (entry.caption && !asButton) {
       var cap = el("figcaption");
@@ -147,11 +154,15 @@
     return { node: t, img: img };
   }
 
-  /* spec: [[organId, count, start], ...]; organs are interleaved round-robin for a mixed montage */
+  /* spec: [[organId, count, start], ...] or [[organId, count, [index, ...]], ...] (explicit 0-based indices);
+     organs are interleaved round-robin for a mixed montage */
   function pick(m, spec) {
     var lanes = spec.map(function (s) {
-      var o = organById(m, s[0]), out = [], start = s[2] || 0;
-      for (var i = 0; i < s[1]; i++) out.push({ organ: o, id: s[0], entry: o && o.images ? o.images[start + i] : null, n: start + i + 1 });
+      var o = organById(m, s[0]), out = [], idx = Array.isArray(s[2]) ? s[2] : null, start = idx ? 0 : (s[2] || 0);
+      for (var i = 0; i < s[1]; i++) {
+        var j = idx ? idx[i] : start + i;
+        out.push({ organ: o, id: s[0], entry: o && o.images && j != null ? o.images[j] : null, n: j + 1 });
+      }
       return out;
     });
     var res = [], more = true;
@@ -306,8 +317,9 @@
     }
 
     function draw(m, ok) {
-      var per = m.tiles_per_organ || 20, missing = 0;
+      var missing = 0;
       (m.organs || []).forEach(function (o) {
+        var per = o.tiles || m.tiles_per_organ || 20;
         var grid = $('[data-organ="' + o.id + '"]', root);
         if (!grid) return;
         grid.innerHTML = "";
