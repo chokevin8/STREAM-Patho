@@ -1,0 +1,95 @@
+{
+  "_readme": "Per organ, list up to tiles_per_organ images in display order. Each entry: {\"src\": \"assets/gallery/<organ>/<file>\", \"caption\": optional short text, \"alt\": optional alt text}. Paths are relative to site/. Entries with src null, missing entries, or images that fail to load render as grey placeholders. 'hero' fills the 16-tile montage under the title on index.html (organs interleaved). Each spec row is [organ id, count, start index].",
+  "version": 1,
+  "tiles_per_organ": 20,
+  "organs": [
+    {
+      "id": "brca",
+      "label": "TCGA-BRCA",
+      "description": "Unconditional samples from STREAM trained on 12.2M patches (20×, 256×256) from the breast cancer cohort of The Cancer Genome Atlas (TCGA), TCGA-BRCA.",
+      "images": [
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null }
+      ]
+    },
+    {
+      "id": "coadread",
+      "label": "TCGA-COADREAD",
+      "description": "Unconditional samples from STREAM trained on 3.4M TCGA-COADREAD patches (20×, 256×256).",
+      "images": [
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null }
+      ]
+    },
+    {
+      "id": "spider-skin",
+      "label": "SPIDER-skin",
+      "description": "Unconditional samples from STREAM trained on SPIDER-skin, an independent non-TCGA dataset.",
+      "images": [
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null },
+        { "src": null, "caption": null }
+      ]
+    }
+  ],
+  "hero": {
+    "from": [
+      ["brca", 6, 0],
+      ["coadread", 6, 0],
+      ["spider-skin", 4, 0]
+    ]
+  }
+}

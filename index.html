@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>STREAM: Stochastic Riemannian Flow Matching with Anisotropic Decoder for Digital Histopathology Image Generation</title>
+<meta name="description" content="STREAM uses histopathology vision foundation models (VFMs) like UNI as the generative latent space itself, not as conditioning. NeurIPS 2026 Spotlight.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="STREAM: Stochastic Riemannian Flow Matching with Anisotropic Decoder for Digital Histopathology Image Generation">
+<meta property="og:description" content="Histopathology VFMs like UNI as the generative latent space itself, not as conditioning. NeurIPS 2026 Spotlight.">
+<meta property="og:image" content="https://chokevin8.github.io/STREAM-Patho/assets/img/social_preview.jpg">
+<meta property="og:url" content="https://chokevin8.github.io/STREAM-Patho/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="STREAM: Stochastic Riemannian Flow Matching with Anisotropic Decoder for Digital Histopathology Image Generation">
+<meta name="twitter:description" content="Histopathology VFMs like UNI as the generative latent space itself, not as conditioning. NeurIPS 2026 Spotlight.">
+<meta name="twitter:image" content="https://chokevin8.github.io/STREAM-Patho/assets/img/social_preview.jpg">
+<link rel="canonical" href="https://chokevin8.github.io/STREAM-Patho/">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Code:wght@400&family=Noto+Sans:ital,wght@0,400;0,600;1,400&family=STIX+Two+Text:ital@0;1&display=swap">
+<link rel="stylesheet" href="assets/css/style.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <h1 class="title"><span class="name">STREAM</span>: Stochastic Riemannian Flow Matching with Anisotropic Decoder for Digital Histopathology Image Generation</h1>
+
+    <ul class="authors" aria-label="Authors">
+      <li>Won June Cho</li>
+      <li>Daeky Jeong</li>
+      <li>Hyeongyeol Lim</li>
+      <li>Hongjun Yoon</li>
+    </ul>
+    <p class="affil">DEEPNOID Inc.</p>
+    <p class="venue">NeurIPS 2026 Spotlight</p>
+
+    <ul class="links">
+      <li>
+        <a class="btn" href="https://arxiv.org/abs/2606.07036">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>
+          <span>Paper</span>
+        </a>
+      </li>
+      <li>
+        <!-- TODO: GitHub repository URL -->
+        <a class="btn is-soon" href="#" data-todo="code" aria-disabled="true" title="Coming soon">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          <span>Code</span><span class="soon" aria-hidden="true">soon</span><span class="sr-only soon-sr"> (coming soon)</span>
+        </a>
+      </li>
+      <li>
+        <!-- TODO: Hugging Face model URL -->
+        <a class="btn is-soon" href="#" data-todo="models" aria-disabled="true" title="Coming soon">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M1.4446 11.5059c0 1.1021.1673 2.1585.4847 3.1563-.0378-.0028-.0691-.0058-.1058-.0058-.4209 0-.8015.16-1.0704.4512-.3454.3737-.4984.8335-.4316 1.293a1.576 1.576 0 0 0 .2148.5978c-.2319.1864-.4018.4456-.4844.7578-.0646.2448-.131.7543.2149 1.2794a1.4552 1.4552 0 0 0-.0625.1055c-.208.3923-.2207.8372-.0371 1.25.2783.6258.9696 1.1175 2.3126 1.6467.8356.3292 1.5988.5411 1.6056.543 1.1046.2847 2.104.4277 2.969.4277 1.4173 0 2.4754-.3849 3.1525-1.1446 1.538.2651 2.791.1403 3.592.006.6773.7555 1.7332 1.1387 3.1467 1.1387.8649 0 1.8643-.143 2.969-.4278.0068-.0019.77-.2138 1.6056-.543 1.343-.5292 2.0343-1.0208 2.3126-1.6466.1836-.4129.171-.8577-.037-1.25a1.4685 1.4685 0 0 0-.0626-.1056c.346-.525.2795-1.0346.2149-1.2793-.0826-.3122-.2525-.5714-.4844-.7579.11-.1816.1831-.3788.2148-.5977.0669-.4595-.0862-.9193-.4316-1.293-.2688-.2913-.6495-.4513-1.0704-.4513-.0209 0-.0376.0008-.0588.0018.3162-.9966.4846-2.0518.4846-3.1523 0-5.807-4.7362-10.5144-10.5789-10.5144-5.8426 0-10.5788 4.7073-10.5788 10.5144Zm10.5788-9.4831c5.2727 0 9.5476 4.246 9.5476 9.483a9.4201 9.4201 0 0 1-.2696 2.2365c-.0039-.0047-.0079-.011-.0117-.0156-.274-.3255-.6679-.5059-1.1075-.5059-.352 0-.714.1155-1.0763.3438-.2403.1517-.5058.422-.7793.7598-.2534-.3492-.608-.5832-1.0137-.6465a1.5174 1.5174 0 0 0-.2344-.0176c-.9263 0-1.4828.7993-1.6935 1.5177-.1046.2426-.6065 1.3482-1.3614 2.0978-1.1681 1.1601-1.4458 2.3534-.8396 3.6382-.843.1029-1.5836.0927-2.365-.006.5906-1.212.3626-2.4388-.8426-3.6322-.755-.7496-1.2568-1.8552-1.3614-2.0978-.2107-.7184-.7673-1.5177-1.6935-1.5177-.078 0-.1568.0054-.2344.0176-.4057.0633-.7604.2973-1.0137.6465-.2735-.3379-.539-.6081-.7794-.7598-.3622-.2283-.7243-.3438-1.0762-.3438-.4266 0-.8094.171-1.0821.4786a9.4208 9.4208 0 0 1-.2598-2.1936c0-5.237 4.2749-9.483 9.5475-9.483zM8.6443 7.0036c-.4838.0043-.9503.2667-1.1934.7227-.3536.6633-.1006 1.4873.5645 1.84.351.1862.4883-.5261.836-.6485.3107-.1095.841.399 1.0078.086.3536-.6634.1025-1.4874-.5625-1.84a1.3659 1.3659 0 0 0-.6524-.1602Zm6.8403 0c-.2199-.002-.4426.05-.6504.1602-.665.3526-.9181 1.1766-.5645 1.84.1669.313.6971-.1955 1.0079-.086.3476.1224.4867.8347.838.6485.6649-.3527.916-1.1767.5624-1.84-.243-.456-.7096-.7184-1.1934-.7227Zm-9.7565 1.418a.8768.8768 0 0 0-.877.877c0 .4846.3925.877.877.877a.8768.8768 0 0 0 .877-.877.8768.8768 0 0 0-.877-.877zm12.6434 0c-.4845 0-.879.3925-.879.877 0 .4846.3945.877.879.877a.8768.8768 0 0 0 .877-.877.8768.8768 0 0 0-.877-.877zM8.7927 11.459c-.179-.003-.2793.1107-.2793.416 0 .8097.3874 2.125 1.4279 2.924.207-.7123 1.3453-1.2832 1.5079-1.2012.2315.1167.2191.4417.6074.7266.3884-.285.374-.6098.6056-.7266.1627-.082 1.3009.4889 1.5079 1.2012 1.0404-.799 1.4278-2.1144 1.4278-2.924 0-1.2212-1.583.6402-3.5413.6485-1.4686-.0061-2.7266-1.0558-3.2639-1.0645zM4.312 14.4768c.5792.365 1.6964 2.2751 2.1056 3.0177.1371.2488.371.3536.582.3536.4188 0 .7465-.4138.0391-.9395-1.0636-.791-.6914-2.0846-.1836-2.1642a.4302.4302 0 0 1 .0664-.004c.4616 0 .666.7892.666.7892s.5959 1.4898 1.6213 2.508c.942.9356 1.062 1.703.4961 2.6661-.0164-.004-.0159.0236-.1484.2149-.1853.2673-.4322.4688-.7188.6152-.5062.2269-1.1397.2696-1.7833.2696-1.037 0-2.1017-.1824-2.6975-.336-.0293-.0075-3.6505-.9567-3.1916-1.8224.0771-.1454.2033-.2031.3633-.2031.6463 0 1.823.9551 2.3283.9551.113 0 .196-.0865.2285-.2031.2249-.8045-3.2787-1.0522-2.9846-2.1642.0519-.1967.193-.2757.3907-.2754.854 0 2.7704 1.4923 3.172 1.4923.0307 0 .0525-.0085.0645-.0274.2012-.3227.1096-.5865-1.3087-1.4395-1.4182-.8533-2.4315-1.329-1.8653-1.9416.0651-.0707.1574-.1015.2695-.1015.8611.0002 2.8948 1.84 2.8948 1.84s.5487.5683.8809.5683c.0762 0 .1416-.0315.1855-.1054.2355-.3946-2.1858-2.2183-2.3224-2.971-.0926-.51.0641-.7676.3555-.7676-.0006.008.1701-.0285.4942.1759zm16.2257.5918c-.1366.7526-2.5579 2.5764-2.3224 2.9709.044.074.1092.1055.1855.1055.3321 0 .881-.5684.881-.5684s2.0336-1.8397 2.8947-1.84c.1121 0 .2044.0308.2695.1016.5662.6125-.447 1.0882-1.8653 1.9415-1.4183.853-1.51 1.1168-1.3087 1.4396.012.0188.0337.0273.0644.0273.4016 0 2.3181-1.4923 3.1721-1.4923.1977-.0002.3388.0787.3907.2754.294 1.112-3.2095 1.3597-2.9846 2.1642.0325.1166.1156.2032.2285.2032.5054 0 1.682-.9552 2.3283-.9552.16 0 .2862.0577.3633.2032.459.8656-3.1623 1.8149-3.1916 1.8224-.5958.1535-1.6605.336-2.6975.336-.6351 0-1.261-.0409-1.7638-.2599-.2949-.1472-.5488-.3516-.7383-.625-.0411-.0682-.1026-.1476-.1426-.205-.5726-.9679-.455-1.7371.4903-2.676 1.0254-1.0182 1.6212-2.508 1.6212-2.508s.2044-.7891.666-.7891a.4318.4318 0 0 1 .0665.0039c.5078.0796.88 1.3732-.1836 2.1642-.7074.5257-.3797.9395.039.9395.211 0 .445-.1047.5821-.3535.4092-.7426 1.5264-2.6527 2.1056-3.0178.5588-.3524.99-.1816.8497.5918z"/></svg>
+          <span>Models</span><span class="soon" aria-hidden="true">soon</span><span class="sr-only soon-sr"> (coming soon)</span>
+        </a>
+      </li>
+      <li>
+        <a class="btn" href="gallery.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>
+          <span>Gallery</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Large visual right under the metadata: a montage of generated tiles (assets/gallery/manifest.json, "hero") -->
+  <section class="teaser" aria-label="Generated samples">
+    <div class="wrap-wide">
+      <ul class="montage" id="montage" aria-label="Unconditional STREAM samples from TCGA-BRCA, TCGA-COADREAD and SPIDER-skin"></ul>
+      <p class="note placeholder-note" id="montage-note">Grey tiles are placeholders for generated samples.</p>
+      <div class="gallery-cta">
+        <a class="btn" href="gallery.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>
+          <span>View gallery</span>
+        </a>
+      </div>
+      <p class="hook"><strong>STREAM</strong> uses histopathology vision foundation models (VFMs) like UNI<sup class="cite"><a href="#ref-1" aria-label="Reference 1">1</a></sup> as the generative latent space itself, not as conditioning.</p>
+    </div>
+  </section>
+
+  <section class="sec alt" id="tldr" aria-labelledby="tldr-title">
+    <div class="wrap prose">
+      <h2 class="sec-title" id="tldr-title">TL;DR</h2>
+      <p class="lead">Existing state-of-the-art histopathology generative models<sup class="cite"><a href="#ref-2" aria-label="Reference 2">2</a>,<a href="#ref-3" aria-label="Reference 3">3</a></sup> use VFMs only as conditioning, and most of their output diversity comes from that signal. STREAM instead makes the ℓ<sub>2</sub>-normalized<sup class="cite"><a href="#ref-4" aria-label="Reference 4">4</a>,<a href="#ref-5" aria-label="Reference 5">5</a></sup> patch tokens of a frozen VFM the latent space itself and learns their distribution there, with Riemannian flow matching (RFM)<sup class="cite"><a href="#ref-6" aria-label="Reference 6">6</a></sup> on the hypersphere. STREAM makes two novel contributions: a stochastic bridge added to Diffusion Transformer (DiT)<sup class="cite"><a href="#ref-7" aria-label="Reference 7">7</a></sup> training and anisotropic noise added to decoder training. With these two contributions, and with every baseline comparison method using the same UNI encoder, STREAM achieves state-of-the-art generation Fréchet Inception Distance (gFID)<sup class="cite"><a href="#ref-8" aria-label="Reference 8">8</a></sup> on The Cancer Genome Atlas (TCGA) breast (TCGA-BRCA)<sup class="cite"><a href="#ref-9" aria-label="Reference 9">9</a></sup> and colorectal (TCGA-COADREAD)<sup class="cite"><a href="#ref-10" aria-label="Reference 10">10</a></sup> cohorts and on SPIDER-skin<sup class="cite"><a href="#ref-11" aria-label="Reference 11">11</a></sup>.</p>
+    </div>
+  </section>
+
+  <section class="sec" id="motivation" aria-labelledby="motivation-title">
+    <div class="wrap">
+      <h2 class="sec-title" id="motivation-title">Why generate in VFM token space?</h2>
+      <div class="prose beats">
+        <p class="lead">Histopathology VFMs<sup class="cite"><a href="#ref-12" aria-label="Reference 12">12</a>,<a href="#ref-13" aria-label="Reference 13">13</a></sup> like UNI are widely used for downstream tasks such as classification, segmentation and retrieval. However, they are rarely used in histopathology image generation.</p>
+        <p class="lead">Synthetic histopathology images can potentially address the growing data demands of foundation models<sup class="cite"><a href="#ref-14" aria-label="Reference 14">14</a>,<a href="#ref-15" aria-label="Reference 15">15</a></sup> and patient-privacy concerns<sup class="cite"><a href="#ref-16" aria-label="Reference 16">16</a></sup>.</p>
+        <p class="lead">Previous state-of-the-art generative models such as ZoomLDM and PixCell use VFMs only as conditioning. Therefore, they display <em>conditioning-dominated diversity</em>: on TCGA-BRCA, <strong>62–75% of their output diversity</strong> comes from that conditioning signal rather than from the learned latent space.</p>
+      </div>
+
+      <div class="flows" role="group" aria-label="Schematic: conditioned pipeline versus STREAM">
+        <div class="flow flow--cond">
+          <p class="flow-head">Conditioned generative models<span>e.g. ZoomLDM, PixCell</span></p>
+          <ol class="steps" aria-label="Conditioned pipeline">
+            <li class="step is-warm">VFM embedding <span class="math">&nbsp;c</span></li>
+            <li class="step">Diffusion in a VAE latent</li>
+            <li class="step">VAE decoder</li>
+            <li class="step"><span class="swatch" aria-hidden="true"></span>Image</li>
+          </ol>
+          <p class="flow-note"><b>Diversity comes mostly from <span class="math">c</span>,</b> and sampling needs a VFM embedding.</p>
+        </div>
+        <div class="flow flow--stream">
+          <p class="flow-head">STREAM<span>unconditional</span></p>
+          <ol class="steps" aria-label="STREAM pipeline">
+            <li class="step">Uniform noise on the sphere</li>
+            <li class="step is-accent">Riemannian flow in VFM token space</li>
+            <li class="step">Decoder</li>
+            <li class="step"><span class="swatch" aria-hidden="true"></span>Image</li>
+          </ol>
+          <p class="flow-note"><b>No conditioning signal:</b> sampling needs no image or embedding as input.</p>
+        </div>
+      </div>
+
+      <h3 class="sub-title">The VFM token space is the right latent space</h3>
+      <div class="prose">
+        <p class="lead">VFM features carry much more semantic information compared to variational autoencoder (VAE) features. A linear probe on SPIDER-breast (benign vs malignant) reaches an area under the receiver operating characteristic curve (AUROC) ≥ 0.995 on VFM features and ≤ 0.640 on VAE features.</p>
+      </div>
+      <figure class="probe-fig">
+        <div class="table-scroll">
+          <table class="probe">
+            <caption class="sr-only">Linear-probe AUROC on SPIDER-breast, benign vs malignant (paper Table 2)</caption>
+            <thead>
+              <tr><th scope="col">Encoder</th><th scope="col" class="pb-head"><span class="sr-only">AUROC bar</span></th><th scope="col">AUROC</th></tr>
+            </thead>
+            <tbody>
+              <tr class="grp"><th scope="rowgroup" colspan="3">VFM features</th></tr>
+              <tr class="is-vfm"><th scope="row">UNI</th><td class="pb" aria-hidden="true"><span style="--v:.995"></span></td><td>0.995</td></tr>
+              <tr class="is-vfm"><th scope="row">UNI2-h</th><td class="pb" aria-hidden="true"><span style="--v:.997"></span></td><td>0.997</td></tr>
+              <tr class="grp"><th scope="rowgroup" colspan="3">VAE features</th></tr>
+              <tr><th scope="row">PixCell VAE</th><td class="pb" aria-hidden="true"><span style="--v:.640"></span></td><td>0.640</td></tr>
+              <tr><th scope="row">ZoomLDM VAE</th><td class="pb" aria-hidden="true"><span style="--v:.624"></span></td><td>0.624</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figcaption class="fig-caption">Linear-probe AUROC on SPIDER-breast (benign vs malignant), higher is better.</figcaption>
+      </figure>
+      <div class="prose">
+        <p class="lead center">This shows that the VAE features used by previous latent diffusion models<sup class="cite"><a href="#ref-17" aria-label="Reference 17">17</a>,<a href="#ref-18" aria-label="Reference 18">18</a></sup> carry little semantic information, a trend that is similarly observed in previous works in the natural domain.<sup class="cite"><a href="#ref-19" aria-label="Reference 19">19</a>–<a href="#ref-21" aria-label="Reference 21">21</a></sup></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec alt" id="rfm" aria-labelledby="rfm-title">
+    <div class="wrap">
+      <h2 class="sec-title" id="rfm-title">Why Riemannian Flow Matching for Histopathology Image Generation?</h2>
+      <div class="prose">
+        <p class="lead">The VFM tokens are not naturally unit-norm; we ℓ<sub>2</sub>-normalize them so that every token lies on the unit hypersphere. Measured on TCGA-BRCA, their tangent drift<sup class="cite"><a href="#ref-22" aria-label="Reference 22">22</a></sup> is high (above 0.72 at hop 1), so straight-line interpolants leave the manifold, and Riemannian flow matching on the hypersphere is the better-matched formulation.</p>
+      </div>
+      <!-- Paper Figure 3, author-approved redraw as two panels (assets/img/figure3_spectrum.png, figure3_tangent.png). -->
+      <figure class="fig-img fig-pair">
+        <div class="fig-pair-row">
+          <img src="assets/img/figure3_spectrum.png" width="864" height="704" loading="lazy" decoding="async"
+               alt="Eigenvalue spectrum of UNI and UNI2-h features on TCGA-BRCA: normalized eigenvalue on a log scale against eigenvalue index, decaying slowly over hundreds of directions; covariance effective rank 252.1 for UNI and 265.0 for UNI2-h.">
+          <img src="assets/img/figure3_tangent.png" width="864" height="704" loading="lazy" decoding="async"
+               alt="Tangent space analysis of UNI and UNI2-h: tangent drift (1 minus alignment) against graph hop distance 1 to 7, above 0.72 at hop 1 and rising to about 0.98 at hop 7, with the two encoders nearly identical.">
+        </div>
+        <figcaption>Eigenvalue spectrum (left) and tangent drift against graph-hop distance (right) of UNI and UNI2-h features on TCGA-BRCA.</figcaption>
+      </figure>
+      <div class="prose">
+        <p class="lead center">The eigenvalue spectrum shows why we use UNI: UNI2-h gains only 5% more effective rank (265 vs 252) for 50% more embedding dimension (1536 vs 1024).</p>
+      </div>
+
+      <div class="conclude">
+        <p>So a generative model should use the VFM token space itself as the latent space and learn the distribution there.</p>
+        <p>And unconditional generation is the right fit: conditioning needs a real image's VFM embedding or labels at inference, especially since annotation is scarce in the histopathology domain.<sup class="cite"><a href="#ref-23" aria-label="Reference 23">23</a>,<a href="#ref-24" aria-label="Reference 24">24</a></sup></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="method" aria-labelledby="method-title">
+    <div class="wrap">
+      <h2 class="sec-title" id="method-title">Method at a glance</h2>
+
+      <figure class="fig-img fig-overview">
+        <img src="assets/img/figure1.png" width="2197" height="989" decoding="async"
+             alt="Overview of STREAM in two stages. H&amp;E patches pass through a frozen UNI encoder, marked with an ice-blue snowflake, into a grid of patch tokens. Stage 1: the tokens lie on a unit hypersphere, where a trainable DiT, marked with a fire-coloured flame, learns to move a point from x0 to x1 along the SLERP geodesic rather than the dashed Euclidean chord; an inset shows Gaussian noise added in the tangent plane at the geodesic point mu_t and mapped back onto the sphere by the exponential map (Exp) to give x_t. Stage 2: the DiT&#39;s singular-value spectrum is split into high-sensitivity directions U_H (red) and low-sensitivity directions U_L (blue), which shape anisotropic noise on a tangent sheet, elongated along U_L, used to train a decoder, also marked with a flame. Generation: a noise ball of points on the sphere is transported by the DiT and decoded by the Decoder into the generated H&amp;E tiles.">
+        <figcaption>Overview of STREAM: frozen VFM tokens on the unit hypersphere, a DiT trained along bridge-perturbed geodesics, and an anisotropic decoder.</figcaption>
+      </figure>
+
+      <div class="method" id="bridge">
+        <h3>Stochastic perturbation bridge</h3>
+        <div class="prose">
+          <p>Standard Riemannian flow matching gives no general rectifiability guarantee<sup class="cite"><a href="#ref-25" aria-label="Reference 25">25</a></sup>, so we perturb its geodesic interpolant with a stochastic bridge. Concretely, during training, each patch token travels from noise to data along the spherical linear interpolation (SLERP) geodesic on the hypersphere, perturbed by tangent Gaussian noise that the exponential map (Exp) carries back onto the sphere; its scale <span class="math">σ(<i>t</i>) = σ<sub>max</sub> <span class="up">sin</span>(π<i>t</i>)</span> vanishes at both ends. The perturbation gives every intermediate marginal full support on the sphere.</p>
+        </div>
+        <p class="eq"><span class="math">μ<sub><i>t</i></sub> = <span class="up">SLERP</span>(<i>x</i><sub>0</sub>, <i>x</i><sub>1</sub>, <i>t</i>)</span> <span class="math"><i>x<sub>t</sub></i> = <span class="up">Exp</span><sub>μ<sub><i>t</i></sub></sub>(σ(<i>t</i>) ε)</span></p>
+        <figure class="clip" data-clip="bridge">
+          <div class="clip-frame">
+            <video muted loop playsinline preload="metadata" data-autoplay poster="assets/video/bridge_poster.png"
+                   aria-label="Animation: a token moves along the SLERP geodesic on a sphere while tangent noise of width sigma(t) widens and narrows; with many pairs, bridge samples reach a region that deterministic SLERP cannot.">
+              <source src="assets/video/bridge.webm" type="video/webm">
+              <source src="assets/video/bridge.mp4" type="video/mp4">
+            </video>
+            <div class="clip-placeholder">
+              <svg viewBox="0 0 120 80" fill="none" aria-hidden="true"><circle cx="60" cy="40" r="32" stroke="#94A3B8" stroke-width="1.5"/><ellipse cx="60" cy="40" rx="32" ry="9" stroke="#D3D9E0" stroke-width="1.2"/><path d="M36 58C44 36 62 20 80 16" stroke="#3273DC" stroke-width="2.2" stroke-linecap="round"/><circle cx="36" cy="58" r="3.2" fill="#94A3B8"/><circle cx="80" cy="16" r="3.2" fill="#D9480F"/><circle cx="55" cy="31" r="7" stroke="#3273DC" stroke-width="1.2" stroke-dasharray="2 2.4"/></svg>
+              <span class="clip-title">Stochastic perturbation bridge</span>
+              <span class="clip-soon">Video coming soon</span>
+            </div>
+          </div>
+          <figcaption>Schematic on a 2-sphere (the model works per token on <span class="math">S<sup><i>d</i>−1</sup></span>, <span class="math"><i>d</i> = 1024</span>), with the noise scale exaggerated.</figcaption>
+        </figure>
+      </div>
+
+      <div class="method" id="decoder">
+        <h3>Anisotropic decoder</h3>
+        <div class="prose">
+          <p>RAE's isotropic decoder treats every token direction equally, yet not all directions matter equally for generation: UNI's effective rank is 252 while its token dimension is <span class="math"><i>d</i> = 1024</span>. We therefore train the decoder with anisotropic noise, choosing directions from the trained DiT's velocity-field Jacobian. The noise is shaped by the singular value decomposition (SVD) of that Jacobian: small noise along the high-response directions <span class="math sub-u">U<sub>H</sub></span> to preserve reconstruction fidelity, and large noise along the low-response directions <span class="math sub-l">U<sub>L</sub></span>, where the decoder spends its robustness budget.</p>
+        </div>
+        <p class="eq"><span class="math">Σ<sub><span class="up">noise</span></sub> = σ<sub>H</sub><sup>2</sup> <span class="sub-u">U<sub>H</sub>U<sub>H</sub><sup>⊤</sup></span> + σ<sub>L</sub><sup>2</sup> <span class="sub-l">U<sub>L</sub>U<sub>L</sub><sup>⊤</sup></span>,</span> <span class="math">σ<sub>H</sub> ≪ σ<sub>L</sub></span></p>
+        <figure class="clip" data-clip="decoder">
+          <div class="clip-frame">
+            <video muted loop playsinline preload="metadata" data-autoplay poster="assets/video/decoder_poster.png"
+                   aria-label="Animation: on the tangent plane of a token, isotropic training noise forms a circle; the SVD of the velocity-field Jacobian splits the plane into high-response and low-response directions, and the noise is squeezed ten-fold along the high-response direction.">
+              <source src="assets/video/decoder.webm" type="video/webm">
+              <source src="assets/video/decoder.mp4" type="video/mp4">
+            </video>
+            <div class="clip-placeholder">
+              <svg viewBox="0 0 120 80" fill="none" aria-hidden="true"><rect x="22" y="8" width="76" height="64" rx="6" stroke="#D3D9E0" stroke-width="1.2"/><circle cx="60" cy="40" r="22" stroke="#94A3B8" stroke-width="1.3" stroke-dasharray="2.5 2.5"/><ellipse cx="60" cy="40" rx="4.5" ry="22" transform="rotate(-25 60 40)" stroke="#3273DC" stroke-width="1.8"/><path d="M60 40l17-8" stroke="#3273DC" stroke-width="2" stroke-linecap="round"/><path d="M60 40l-8-17" stroke="#D9480F" stroke-width="2" stroke-linecap="round"/><circle cx="60" cy="40" r="2.4" fill="#1E293B"/></svg>
+              <span class="clip-title">Anisotropic decoder training</span>
+              <span class="clip-soon">Video coming soon</span>
+            </div>
+          </div>
+          <figcaption>Two of the 1,023 tangent directions of one token, drawn at the deployed ratio <span class="math">σ<sub>H</sub> : σ<sub>L</sub> = 1 : 10</span>.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec alt" id="results" aria-labelledby="results-title">
+    <div class="wrap-wide">
+      <h2 class="sec-title" id="results-title">State-of-the-art generation quality on three separate datasets</h2>
+      <div class="prose">
+        <p class="lead center">Every method is retrained with the same frozen UNI encoder (baselines: ZoomLDM, PixCell, RAE, SVG<sup class="cite"><a href="#ref-26" aria-label="Reference 26">26</a></sup>, REPA-E<sup class="cite"><a href="#ref-27" aria-label="Reference 27">27</a></sup>). STREAM has the lowest generation FID on all three datasets.</p>
+      </div>
+
+      <figure class="bars-fig" style="margin:0">
+        <div class="bars" role="group" aria-label="Generation FID (gFID, lower is better) for six methods on three datasets. Values are listed next to each bar.">
+          <div class="bars-panel">
+            <h3 class="bars-title">TCGA-BRCA</h3>
+            <ul class="bars-list">
+              <li class="bar-row is-ours" style="--v:6.16"><span class="bar-name">STREAM</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">6.16</span></li>
+              <li class="bar-row" style="--v:7.43"><span class="bar-name">ZoomLDM</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">7.43</span></li>
+              <li class="bar-row" style="--v:15.84"><span class="bar-name">RAE</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">15.84</span></li>
+              <li class="bar-row" style="--v:17.37"><span class="bar-name">SVG</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">17.37</span></li>
+              <li class="bar-row" style="--v:28.57"><span class="bar-name">REPA-E</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">28.57</span></li>
+              <li class="bar-row is-off" style="--v:104.18"><span class="bar-name">PixCell<span class="sr-only"> (off scale)</span></span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">104.18</span></li>
+            </ul>
+            <div class="bar-axis" aria-hidden="true"><span class="axis-label">gFID</span><span class="bar-ticks"><span style="left:0">0</span><span style="left:33.333%">10</span><span style="left:66.667%">20</span><span style="left:100%">30</span></span><span></span></div>
+          </div>
+          <div class="bars-panel">
+            <h3 class="bars-title">TCGA-COADREAD</h3>
+            <ul class="bars-list">
+              <li class="bar-row is-ours" style="--v:7.68"><span class="bar-name">STREAM</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">7.68</span></li>
+              <li class="bar-row" style="--v:8.09"><span class="bar-name">ZoomLDM</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">8.09</span></li>
+              <li class="bar-row" style="--v:19.64"><span class="bar-name">RAE</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">19.64</span></li>
+              <li class="bar-row" style="--v:23.64"><span class="bar-name">SVG</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">23.64</span></li>
+              <li class="bar-row" style="--v:13.41"><span class="bar-name">REPA-E</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">13.41</span></li>
+              <li class="bar-row is-off" style="--v:127.24"><span class="bar-name">PixCell<span class="sr-only"> (off scale)</span></span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">127.24</span></li>
+            </ul>
+            <div class="bar-axis" aria-hidden="true"><span class="axis-label">gFID</span><span class="bar-ticks"><span style="left:0">0</span><span style="left:33.333%">10</span><span style="left:66.667%">20</span><span style="left:100%">30</span></span><span></span></div>
+          </div>
+          <div class="bars-panel">
+            <h3 class="bars-title">SPIDER-skin</h3>
+            <ul class="bars-list">
+              <li class="bar-row is-ours" style="--v:9.19"><span class="bar-name">STREAM</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">9.19</span></li>
+              <li class="bar-row" style="--v:11.14"><span class="bar-name">ZoomLDM</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">11.14</span></li>
+              <li class="bar-row" style="--v:16.52"><span class="bar-name">RAE</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">16.52</span></li>
+              <li class="bar-row" style="--v:22.24"><span class="bar-name">SVG</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">22.24</span></li>
+              <li class="bar-row" style="--v:18.00"><span class="bar-name">REPA-E</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">18.00</span></li>
+              <li class="bar-row is-off" style="--v:453.28"><span class="bar-name">PixCell<span class="sr-only"> (off scale)</span></span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">453.28</span></li>
+            </ul>
+            <div class="bar-axis" aria-hidden="true"><span class="axis-label">gFID</span><span class="bar-ticks"><span style="left:0">0</span><span style="left:33.333%">10</span><span style="left:66.667%">20</span><span style="left:100%">30</span></span><span></span></div>
+          </div>
+        </div>
+        <figcaption class="fig-caption">gFID, lower is better; PixCell, sampled without an input image, falls off the scale.</figcaption>
+      </figure>
+
+      <details class="table-view">
+        <summary>Show as a table</summary>
+        <div class="table-scroll">
+          <table class="data">
+            <caption class="sr-only">Generation FID (lower is better)</caption>
+            <thead><tr><th scope="col">Method</th><th scope="col">TCGA-BRCA</th><th scope="col">TCGA-COADREAD</th><th scope="col">SPIDER-skin</th></tr></thead>
+            <tbody>
+              <tr class="is-ours"><th scope="row">STREAM</th><td>6.16</td><td>7.68</td><td>9.19</td></tr>
+              <tr><th scope="row">ZoomLDM</th><td>7.43</td><td>8.09</td><td>11.14</td></tr>
+              <tr><th scope="row">RAE</th><td>15.84</td><td>19.64</td><td>16.52</td></tr>
+              <tr><th scope="row">SVG</th><td>17.37</td><td>23.64</td><td>22.24</td></tr>
+              <tr><th scope="row">REPA-E</th><td>28.57</td><td>13.41</td><td>18.00</td></tr>
+              <tr><th scope="row">PixCell</th><td>104.18</td><td>127.24</td><td>453.28</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+
+      <div class="nfe" id="nfe">
+        <h3 class="sub-title">Efficient and fast inference</h3>
+        <div class="prose">
+          <p class="lead center">On TCGA-BRCA, STREAM at a number of function evaluations (NFE) of 26 already beats RAE and SVG at NFE 50, and at NFE 50 it is also the cheapest of the three per image.</p>
+        </div>
+
+        <div class="tabs" data-tabs>
+          <div class="pills" role="tablist" aria-label="Inference figure">
+            <button class="pill" type="button" role="tab" id="tab-nfe" aria-controls="panel-nfe" aria-selected="true">NFE</button>
+            <button class="pill" type="button" role="tab" id="tab-throughput" aria-controls="panel-throughput" aria-selected="false" tabindex="-1">Throughput</button>
+          </div>
+
+          <div class="tab-panel" role="tabpanel" id="panel-nfe" aria-labelledby="tab-nfe" tabindex="0">
+            <figure class="nfe-fig">
+              <ul class="nfe-legend" aria-hidden="true">
+                <li><span class="lg lg-stream"></span>STREAM</li>
+                <li><span class="lg lg-rae"></span>RAE</li>
+                <li><span class="lg lg-svg"></span>SVG</li>
+              </ul>
+              <div class="nfe-scroll">
+                <svg class="nfe-svg" viewBox="0 0 640 360" role="img" aria-labelledby="nfe-svg-title nfe-svg-desc">
+                <title id="nfe-svg-title">gFID against NFE on TCGA-BRCA</title>
+                <desc id="nfe-svg-desc">Mean gFID over 3 sampling seeds. STREAM: 49.70, 27.05, 9.31, 6.16 at NFE 6, 10, 26, 50. RAE: 55.03, 29.87, 18.27, 15.88. SVG: 55.80, 30.53, 18.82, 17.52.</desc>
+                <g class="nfe-grid">
+                <line x1="52" x2="528" y1="314" y2="314"/>
+                <line x1="52" x2="528" y1="214" y2="214"/>
+                <line x1="52" x2="528" y1="114" y2="114"/>
+                <line x1="52" x2="528" y1="14" y2="14"/>
+                </g><g class="nfe-tick nfe-tick-y">
+                <text x="42" y="318">0</text>
+                <text x="42" y="218">20</text>
+                <text x="42" y="118">40</text>
+                <text x="42" y="18">60</text>
+                </g><g class="nfe-tick nfe-tick-x">
+                <text x="109.1" y="334">6</text>
+                <text x="147.2" y="334">10</text>
+                <text x="299.5" y="334">26</text>
+                <text x="528" y="334">50</text>
+                </g>
+                <text class="nfe-axis" x="290" y="356">NFE (function evaluations)</text>
+                <text class="nfe-axis" x="14" y="164" transform="rotate(-90 14 164)">gFID</text>
+                <g class="nfe-series s-svg"><polyline points="109.1,35 147.2,161.3 299.5,219.9 528,226.4"/>
+                <path class="mk" d="M109.1 29L114.6 39L103.6 39Z"><title>SVG, NFE 6: 55.80 ± 0.07</title></path>
+                <path class="mk" d="M147.2 155.3L152.7 165.3L141.7 165.3Z"><title>SVG, NFE 10: 30.53 ± 0.18</title></path>
+                <path class="mk" d="M299.5 213.9L305 223.9L294 223.9Z"><title>SVG, NFE 26: 18.82 ± 0.15</title></path>
+                <path class="mk" d="M528 220.4L533.5 230.4L522.5 230.4Z"><title>SVG, NFE 50: 17.52 ± 0.14</title></path>
+                </g>
+                <g class="nfe-series s-rae"><polyline points="109.1,38.8 147.2,164.7 299.5,222.7 528,234.6"/>
+                <rect class="mk" x="104.6" y="34.3" width="9" height="9" rx="1.5"><title>RAE, NFE 6: 55.03 ± 0.05</title></rect>
+                <rect class="mk" x="142.7" y="160.2" width="9" height="9" rx="1.5"><title>RAE, NFE 10: 29.87 ± 0.06</title></rect>
+                <rect class="mk" x="295" y="218.2" width="9" height="9" rx="1.5"><title>RAE, NFE 26: 18.27 ± 0.04</title></rect>
+                <rect class="mk" x="523.5" y="230.1" width="9" height="9" rx="1.5"><title>RAE, NFE 50: 15.88 ± 0.04</title></rect>
+                </g>
+                <g class="nfe-series s-stream"><polyline points="109.1,65.5 147.2,178.8 299.5,267.4 528,283.2"/>
+                <circle class="mk" cx="109.1" cy="65.5" r="5"><title>STREAM, NFE 6: 49.70 ± 0.09</title></circle>
+                <circle class="mk" cx="147.2" cy="178.8" r="5"><title>STREAM, NFE 10: 27.05 ± 0.06</title></circle>
+                <circle class="mk" cx="299.5" cy="267.4" r="5"><title>STREAM, NFE 26: 9.31 ± 0.02</title></circle>
+                <circle class="mk" cx="528" cy="283.2" r="5"><title>STREAM, NFE 50: 6.16 ± 0.04</title></circle>
+                </g>
+                <g class="nfe-label">
+                <text x="540" y="223.4">SVG 17.52</text>
+                <text x="540" y="245.6">RAE 15.88</text>
+                <text class="is-ours" x="540" y="287.2">STREAM 6.16</text>
+                </g>
+                <text class="nfe-note" x="299.5" y="255.4">9.31</text>
+                </svg>
+              </div>
+              <figcaption class="fig-caption">gFID against NFE on TCGA-BRCA, lower is better.</figcaption>
+            </figure>
+
+            <details class="table-view">
+              <summary>Show as a table</summary>
+              <div class="table-scroll">
+                <table class="data">
+                  <caption class="sr-only">gFID against NFE on TCGA-BRCA, mean ± standard deviation (SD) over 3 sampling seeds (lower is better)</caption>
+                  <thead><tr><th scope="col">NFE</th><th scope="col">STREAM</th><th scope="col">RAE</th><th scope="col">SVG</th></tr></thead>
+                  <tbody>
+                    <tr><th scope="row">6</th><td class="is-ours">49.70 ± 0.09</td><td>55.03 ± 0.05</td><td>55.80 ± 0.07</td></tr>
+                    <tr><th scope="row">10</th><td class="is-ours">27.05 ± 0.06</td><td>29.87 ± 0.06</td><td>30.53 ± 0.18</td></tr>
+                    <tr><th scope="row">26</th><td class="is-ours">9.31 ± 0.02</td><td>18.27 ± 0.04</td><td>18.82 ± 0.15</td></tr>
+                    <tr><th scope="row">50</th><td class="is-ours">6.16 ± 0.04</td><td>15.88 ± 0.04</td><td>17.52 ± 0.14</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          </div>
+
+          <div class="tab-panel" role="tabpanel" id="panel-throughput" aria-labelledby="tab-throughput" tabindex="0">
+            <figure class="bars-fig tp-fig">
+              <div class="bars bars--two" role="group" aria-label="Inference cost per generated image at NFE 50, lower is better. Values are listed next to each bar.">
+                <div class="bars-panel" style="--max:200;--div:4">
+                  <h4 class="bars-title">Latency, ms per image</h4>
+                  <ul class="bars-list">
+                    <li class="bar-row is-ours" style="--v:94.8"><span class="bar-name">STREAM</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">94.8</span></li>
+                    <li class="bar-row" style="--v:156.7"><span class="bar-name">RAE</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">156.7</span></li>
+                    <li class="bar-row" style="--v:175.0"><span class="bar-name">SVG</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">175.0</span></li>
+                  </ul>
+                  <div class="bar-axis" aria-hidden="true"><span class="axis-label">ms</span><span class="bar-ticks"><span style="left:0">0</span><span style="left:25%">50</span><span style="left:50%">100</span><span style="left:75%">150</span><span style="left:100%">200</span></span><span></span></div>
+                </div>
+                <div class="bars-panel" style="--max:30;--div:3">
+                  <h4 class="bars-title">Compute, TFLOPs per image</h4>
+                  <ul class="bars-list">
+                    <li class="bar-row is-ours" style="--v:12.14"><span class="bar-name">STREAM</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">12.14</span></li>
+                    <li class="bar-row" style="--v:16.09"><span class="bar-name">RAE</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">16.09</span></li>
+                    <li class="bar-row" style="--v:24.16"><span class="bar-name">SVG</span><span class="bar-track"><span class="bar"></span></span><span class="bar-val">24.16</span></li>
+                  </ul>
+                  <div class="bar-axis" aria-hidden="true"><span class="axis-label">TFLOPs</span><span class="bar-ticks"><span style="left:0">0</span><span style="left:33.333%">10</span><span style="left:66.667%">20</span><span style="left:100%">30</span></span><span></span></div>
+                </div>
+              </div>
+              <figcaption class="fig-caption">Latency and compute per generated image at NFE 50 (latency on one NVIDIA H200), lower is better.</figcaption>
+            </figure>
+
+            <details class="table-view">
+              <summary>Show as a table</summary>
+              <div class="table-scroll">
+                <table class="data">
+                  <caption class="sr-only">Inference cost per generated image at NFE 50 (paper Table 17, lower is better)</caption>
+                  <thead><tr><th scope="col">Model</th><th scope="col">ms / image</th><th scope="col">TFLOPs / image</th></tr></thead>
+                  <tbody>
+                    <tr class="is-ours"><th scope="row">STREAM</th><td>94.8</td><td>12.14</td></tr>
+                    <tr><th scope="row">RAE</th><td>156.7</td><td>16.09</td></tr>
+                    <tr><th scope="row">SVG</th><td>175.0</td><td>24.16</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="ablations" aria-labelledby="ablations-title">
+    <div class="wrap">
+      <h2 class="sec-title" id="ablations-title">Ablations on STREAM's components</h2>
+
+      <h3 class="sub-title sub-title--first">Stochastic bridge and anisotropic decoder</h3>
+      <div class="prose">
+        <p class="lead center">The two components are <strong>superadditive</strong>: together they improve reconstruction Fréchet Inception Distance (rFID) and gFID far more than the sum of their individual contributions. Both components are crucial: standard RFM with an isotropic decoder (top left) does not perform better than previous existing works like ZoomLDM.</p>
+      </div>
+      <figure class="abl-fig">
+        <div class="table-scroll">
+          <table class="abl">
+            <caption class="sr-only">Ablation on TCGA-BRCA (UNI encoder) at 45K decoder steps: rFID and gFID, lower is better (paper Table 4)</caption>
+            <thead>
+              <tr><td class="abl-corner"></td><th scope="col">Isotropic decoder</th><th scope="col">Anisotropic decoder</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">No bridge</th>
+                <td><span class="abl-m"><span class="abl-k">rFID</span>6.51</span><span class="abl-m"><span class="abl-k">gFID</span>9.07</span></td>
+                <td><span class="abl-m"><span class="abl-k">rFID</span>5.02</span><span class="abl-m"><span class="abl-k">gFID</span>8.27</span></td></tr>
+              <tr><th scope="row">Bridge</th>
+                <td><span class="abl-m"><span class="abl-k">rFID</span>6.51</span><span class="abl-m"><span class="abl-k">gFID</span>9.37</span></td>
+                <td class="is-ours"><span class="abl-m"><span class="abl-k">rFID</span>3.52</span><span class="abl-m"><span class="abl-k">gFID</span>6.86</span><span class="abl-tag">STREAM</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <figcaption class="fig-caption">rFID and gFID on TCGA-BRCA (UNI encoder, 45K decoder steps), lower is better.</figcaption>
+      </figure>
+
+      <h3 class="sub-title">Decoder sensitivity explains superadditivity</h3>
+      <div class="prose">
+        <p class="lead center">We next examine how and why this superadditivity arises. It has an empirical explanation in the decoder's directional sensitivity. <span class="math">R<sub><span class="up">dec</span></sub> = L<sub><span class="sub-u">U<sub>H</sub></span></sub> / L<sub><span class="sub-l">U<sub>L</sub></span></sub></span> compares the decoder's Learned Perceptual Image Patch Similarity (LPIPS)<sup class="cite"><a href="#ref-28" aria-label="Reference 28">28</a></sup> sensitivity along the high-response directions <span class="math sub-u">U<sub>H</sub></span> and the low-response directions <span class="math sub-l">U<sub>L</sub></span>. Anisotropic training moves the decoder's sensitivity further toward <span class="math sub-u">U<sub>H</sub></span>, and STREAM (bridge + anisotropic decoder) ends up the most <span class="math sub-u">U<sub>H</sub></span>-sensitive, compared with no bridge or the isotropic decoder.</p>
+      </div>
+      <figure class="rd">
+        <ul class="rd-legend" aria-hidden="true">
+          <li><span class="rd-mk rd-iso"></span>Isotropic decoder</li>
+          <li><span class="rd-mk rd-aniso"></span>Anisotropic decoder</li>
+        </ul>
+        <div role="list" aria-label="Directional-LPIPS ratio R_dec for four configurations">
+            <div class="rd-row" role="listitem"><span class="rd-name">STREAM, <span class="math"><i>k</i> = 64</span></span><span class="rd-track" aria-hidden="true" style="--a:18.7;--b:94.2"><span class="rd-seg"></span><span class="rd-mk rd-iso"></span><span class="rd-mk rd-aniso"></span><span class="rd-v rd-v-a">0.42</span><span class="rd-v rd-v-b">3.41</span></span><span class="sr-only">R_dec: isotropic 0.42, anisotropic 3.41</span></div>
+            <div class="rd-row" role="listitem"><span class="rd-name">STREAM, <span class="math"><i>k</i><sup>∗</sup> = 236</span></span><span class="rd-track" aria-hidden="true" style="--a:54.1;--b:80.2"><span class="rd-seg"></span><span class="rd-mk rd-iso"></span><span class="rd-mk rd-aniso"></span><span class="rd-v rd-v-a">1.12</span><span class="rd-v rd-v-b">2.31</span></span><span class="sr-only">R_dec: isotropic 1.12, anisotropic 2.31</span></div>
+            <div class="rd-row" role="listitem"><span class="rd-name">No bridge, <span class="math"><i>k</i> = 64</span></span><span class="rd-track" aria-hidden="true" style="--a:32.8;--b:83.0"><span class="rd-seg"></span><span class="rd-mk rd-iso"></span><span class="rd-mk rd-aniso"></span><span class="rd-v rd-v-a">0.62</span><span class="rd-v rd-v-b">2.50</span></span><span class="sr-only">R_dec: isotropic 0.62, anisotropic 2.50</span></div>
+            <div class="rd-row" role="listitem"><span class="rd-name">No bridge, <span class="math"><i>k</i><sup>∗</sup> = 232</span></span><span class="rd-track" aria-hidden="true" style="--a:58.9;--b:75.2"><span class="rd-seg"></span><span class="rd-mk rd-iso"></span><span class="rd-mk rd-aniso"></span><span class="rd-v rd-v-a">1.28</span><span class="rd-v rd-v-b">2.01</span></span><span class="sr-only">R_dec: isotropic 1.28, anisotropic 2.01</span></div>
+        </div>
+        <div class="rd-axis" aria-hidden="true"><span></span><span class="rd-ticks"><span style="left:0">0.25</span><span style="left:25%">0.5</span><span style="left:50%">1</span><span style="left:75%">2</span><span style="left:100%">4</span></span></div>
+        <div class="rd-axis rd-dir" aria-hidden="true"><span></span><span class="rd-dirs"><span class="sub-l">← more sensitive along U<sub>L</sub></span><span class="sub-u">more sensitive along U<sub>H</sub> →</span></span></div>
+        <figcaption class="fig-caption"><span class="math">R<sub><span class="up">dec</span></sub></span> on TCGA-BRCA, log scale; <span class="math"><i>k</i> = 64</span> is a fixed split and <span class="math"><i>k</i><sup>∗</sup></span> each model's own energy cut.</figcaption>
+      </figure>
+      <details class="table-view">
+        <summary>Show as a table</summary>
+        <div class="table-scroll">
+          <table class="data">
+            <caption class="sr-only">Directional-LPIPS ratio R_dec on TCGA-BRCA, 2,000 tiles (paper Table 5)</caption>
+            <thead><tr><th scope="col">R<sub>dec</sub></th><th scope="col">Isotropic</th><th scope="col">Anisotropic</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">STREAM (k = 64)</th><td>0.42</td><td>3.41</td></tr>
+              <tr><th scope="row">STREAM (k* = 236)</th><td>1.12</td><td>2.31</td></tr>
+              <tr><th scope="row">No bridge (k = 64)</th><td>0.62</td><td>2.50</td></tr>
+              <tr><th scope="row">No bridge (k* = 232)</th><td>1.28</td><td>2.01</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <div class="prose">
+        <p class="analysis">With the bridge, anisotropic training shifts <span class="math">R<sub><span class="up">dec</span></sub></span> further toward <span class="math sub-u">U<sub>H</sub></span> than without it at both splits (0.42 → 3.41 vs 0.62 → 2.50 at <span class="math"><i>k</i> = 64</span>, 1.12 → 2.31 vs 1.28 → 2.01 at <span class="math"><i>k</i><sup>∗</sup></span>), so the largest shift belongs to STREAM, consistent with its superadditive rFID and gFID gains.</p>
+      </div>
+
+      <h3 class="sub-title">Decoder sensitivity visualized in pixel space</h3>
+      <div class="prose">
+        <p class="lead center">Under a perturbation inside the top-64 subspace (<span class="math sub-u">U<sub>H</sub></span> at <span class="math"><i>k</i> = 64</span>), the anisotropic decoder separates from the isotropic one and responds more strongly. On <span class="math sub-l">U<sub>L</sub></span>, the control, no visual difference between the two decoders is observed.</p>
+      </div>
+      <figure class="fig-img fig-pixel">
+        <a href="assets/img/dirlip_top64.jpg" class="fig-zoom" aria-label="Open the full-resolution figure">
+          <picture>
+            <source srcset="assets/img/dirlip_top64.webp" type="image/webp">
+            <img src="assets/img/dirlip_top64.jpg" width="2010" height="1125" loading="lazy" decoding="async"
+                 alt="Grid of H&amp;E decodes and amplified difference maps for one generated latent, perturbed inside the top-64 subspace at the clean latent and amplitudes 1x, 4x, 8x, 32x, 64x and 128x. The anisotropic decoder (upper block) shows brighter difference maps and visibly changed tissue at the largest amplitudes; the isotropic decoder (lower block) shows fainter differences.">
+          </picture>
+        </a>
+        <figcaption>Anisotropic (upper) and isotropic (lower) bridge decoders decode the same latent perturbed in the top-64 block, not the deployed split, and <span class="math">|Δ|</span> rows show the amplified difference from the clean decode; nothing is visible at the deployed amplitude.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="refs-sec" id="references" aria-label="References">
+    <div class="wrap">
+      <details class="table-view refs-view" id="refs-box">
+        <summary>References (28)</summary>
+        <ul class="refs">
+          <li id="ref-1"><span class="ref-n">1</span>Chen et al., Towards a general-purpose foundation model for computational pathology, Nature Medicine 2024.</li>
+          <li id="ref-2"><span class="ref-n">2</span>Yellapragada et al., ZoomLDM: Latent Diffusion Model for multi-scale image generation, CVPR 2025. <a href="https://arxiv.org/abs/2411.16969">arXiv:2411.16969</a></li>
+          <li id="ref-3"><span class="ref-n">3</span>Yellapragada et al., PixCell: A Generative Foundation Model for Digital Histopathology Images, arXiv preprint 2025. <a href="https://arxiv.org/abs/2506.05127">arXiv:2506.05127</a></li>
+          <li id="ref-4"><span class="ref-n">4</span>Kumar and Patel, Learning on the Manifold: Unlocking Standard Diffusion Transformers with Representation Encoders, ECCV 2026. <a href="https://arxiv.org/abs/2602.10099">arXiv:2602.10099</a></li>
+          <li id="ref-5"><span class="ref-n">5</span>Chang et al., HAE: Hyperspherical Autoencoder for High-Fidelity Image Reconstruction and Generation, arXiv preprint 2026. <a href="https://arxiv.org/abs/2601.22904">arXiv:2601.22904</a></li>
+          <li id="ref-6"><span class="ref-n">6</span>Chen and Lipman, Flow matching on general geometries, ICLR 2024. <a href="https://arxiv.org/abs/2302.03660">arXiv:2302.03660</a></li>
+          <li id="ref-7"><span class="ref-n">7</span>Peebles and Xie, Scalable diffusion models with transformers, ICCV 2023.</li>
+          <li id="ref-8"><span class="ref-n">8</span>Heusel et al., GANs trained by a two time-scale update rule converge to a local Nash equilibrium, NeurIPS 2017.</li>
+          <li id="ref-9"><span class="ref-n">9</span>The Cancer Genome Atlas Network, Comprehensive molecular portraits of human breast tumours, Nature 2012.</li>
+          <li id="ref-10"><span class="ref-n">10</span>The Cancer Genome Atlas Network, Comprehensive molecular characterization of human colon and rectal cancer, Nature 2012. <a href="https://doi.org/10.1038/nature11252">doi:10.1038/nature11252</a></li>
+          <li id="ref-11"><span class="ref-n">11</span>Nechaev et al., SPIDER: A Comprehensive Multi-Organ Supervised Pathology Dataset and Baseline Models, arXiv preprint 2025. <a href="https://arxiv.org/abs/2503.02876">arXiv:2503.02876</a></li>
+          <li id="ref-12"><span class="ref-n">12</span>Zimmermann et al., Virchow2: Scaling Self-Supervised Mixed Magnification Models in Pathology, arXiv preprint 2024. <a href="https://arxiv.org/abs/2408.00738">arXiv:2408.00738</a></li>
+          <li id="ref-13"><span class="ref-n">13</span>Xu et al., A whole-slide foundation model for digital pathology from real-world data, Nature 2024.</li>
+          <li id="ref-14"><span class="ref-n">14</span>Lu et al., A visual-language foundation model for computational pathology, Nature Medicine 2024.</li>
+          <li id="ref-15"><span class="ref-n">15</span>Xiang et al., A vision-language foundation model for precision oncology, Nature 2025.</li>
+          <li id="ref-16"><span class="ref-n">16</span>Wang et al., Self-improving generative foundation model for synthetic medical image generation and clinical applications, Nature Medicine 2025.</li>
+          <li id="ref-17"><span class="ref-n">17</span>Rombach et al., High-resolution image synthesis with latent diffusion models, CVPR 2022.</li>
+          <li id="ref-18"><span class="ref-n">18</span>Ho et al., Denoising diffusion probabilistic models, NeurIPS 2020.</li>
+          <li id="ref-19"><span class="ref-n">19</span>Chen et al., Aligning Visual Foundation Encoders to Tokenizers for Diffusion Models, ICLR 2026.</li>
+          <li id="ref-20"><span class="ref-n">20</span>Zheng et al., Diffusion Transformers with Representation Autoencoders, ICLR 2026. <a href="https://arxiv.org/abs/2510.11690">arXiv:2510.11690</a></li>
+          <li id="ref-21"><span class="ref-n">21</span>Chen et al., Masked Autoencoders Are Effective Tokenizers for Diffusion Models, ICML 2025.</li>
+          <li id="ref-22"><span class="ref-n">22</span>Xiong et al., Exploiting Low-Dimensional Manifold of Features for Few-Shot Whole Slide Image Classification, ICLR 2026.</li>
+          <li id="ref-23"><span class="ref-n">23</span>Campanella et al., Clinical-grade computational pathology using weakly supervised deep learning on whole slide images, Nature Medicine 2019.</li>
+          <li id="ref-24"><span class="ref-n">24</span>van der Laak et al., Deep Learning in Histopathology: The Path to the Clinic, Nature Medicine 2021.</li>
+          <li id="ref-25"><span class="ref-n">25</span>Hertrich et al., On the relation between rectified flows and optimal transport, arXiv preprint 2025. <a href="https://arxiv.org/abs/2505.19712">arXiv:2505.19712</a></li>
+          <li id="ref-26"><span class="ref-n">26</span>Shi et al., Latent Diffusion Model without Variational Autoencoder, arXiv preprint 2025. <a href="https://arxiv.org/abs/2510.15301">arXiv:2510.15301</a></li>
+          <li id="ref-27"><span class="ref-n">27</span>Leng et al., REPA-E: Unlocking VAE for End-to-End Tuning with Latent Diffusion Transformers, ICCV 2025.</li>
+          <li id="ref-28"><span class="ref-n">28</span>Zhang et al., The unreasonable effectiveness of deep features as a perceptual metric, CVPR 2018.</li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+  <section class="sec alt" id="bibtex-section" aria-labelledby="bibtex-title">
+    <div class="wrap">
+      <h2 class="sec-title" id="bibtex-title">BibTeX</h2>
+      <p class="bib-lead">If you find our work useful, please cite it using the BibTeX below.</p>
+      <div class="bib">
+        <pre id="bibtex"><code>@inproceedings{cho2026stream,
+  title     = {{STREAM}: Stochastic Riemannian Flow Matching with Anisotropic Decoder for Digital Histopathology Image Generation},
+  author    = {Cho, Won June and Jeong, Daeky and Lim, Hyeongyeol and Yoon, Hongjun},
+  booktitle = {The Fortieth Annual Conference on Neural Information Processing Systems},
+  year      = {2026},
+  url       = {https://arxiv.org/abs/2606.07036}
+}</code></pre>
+        <button class="copy" type="button" data-copy="#bibtex">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8.5" y="8.5" width="12" height="12" rx="2"/><path d="M15.5 8.5V5.5a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h3"/></svg>
+          <span>Copy</span>
+        </button>
+        <p class="sr-only" aria-live="polite" id="copy-status"></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap"><a href="#top">Back to top</a></div>
+</footer>
+
+<script src="assets/js/site.js" defer></script>
+</body>
+</html>
