@@ -16,7 +16,7 @@
 <meta name="twitter:description" content="Histopathology VFMs like UNI as the generative latent space itself, not as conditioning. NeurIPS 2026 Spotlight.">
 <meta name="twitter:image" content="https://chokevin8.github.io/STREAM-Patho/assets/img/social_preview.jpg">
 <link rel="canonical" href="https://chokevin8.github.io/STREAM-Patho/">
-<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%8A%3C/text%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Google+Sans+Code:wght@400&family=Noto+Sans:ital,wght@0,400;0,600;1,400&family=STIX+Two+Text:ital@0;1&display=swap">
@@ -28,7 +28,7 @@
 
 <header class="hero" id="top">
   <div class="wrap">
-    <h1 class="title"><span class="name">STREAM</span>: Stochastic Riemannian Flow Matching with Anisotropic Decoder for Digital Histopathology Image Generation</h1>
+    <h1 class="title"><span class="logo" aria-hidden="true">🌊</span><span class="name">STREAM</span>: Stochastic Riemannian Flow Matching with Anisotropic Decoder for Digital Histopathology Image Generation</h1>
 
     <ul class="authors" aria-label="Authors">
       <li>Won June Cho</li>
@@ -37,7 +37,7 @@
       <li>Hongjun Yoon</li>
     </ul>
     <p class="affil">DEEPNOID Inc.</p>
-    <p class="venue">NeurIPS 2026 Spotlight</p>
+    <p class="venue"><img class="venue-logo" src="assets/img/neurips_logo.svg" width="36" height="36" alt="NeurIPS"><span>NeurIPS 2026 Spotlight</span><span class="venue-mark" aria-hidden="true">🔦</span></p>
 
     <ul class="links">
       <li>
@@ -67,6 +67,7 @@
         </a>
       </li>
     </ul>
+
   </div>
 </header>
 
@@ -84,6 +85,14 @@
         </a>
       </div>
       <p class="hook"><strong>STREAM</strong> uses histopathology vision foundation models (VFMs) like UNI<sup class="cite"><a href="#ref-1" aria-label="Reference 1">1</a></sup> as the generative latent space itself, not as conditioning.</p>
+      <nav class="toc" aria-label="On this page">
+        <ul>
+          <li><a class="pill" href="#motivation">Motivation</a></li>
+          <li><a class="pill" href="#method">Methods</a></li>
+          <li><a class="pill" href="#results">Results</a></li>
+          <li><a class="pill" href="#ablations">Ablations</a></li>
+        </ul>
+      </nav>
     </div>
   </section>
 
@@ -188,7 +197,7 @@
 
       <figure class="fig-img fig-overview">
         <img src="assets/img/figure1.png" width="2197" height="989" decoding="async"
-             alt="Overview of STREAM in two stages. H&amp;E patches pass through a frozen UNI encoder, marked with an ice-blue snowflake, into a grid of patch tokens. Stage 1: the tokens lie on a unit hypersphere, where a trainable DiT, marked with a fire-coloured flame, learns to move a point from x0 to x1 along the SLERP geodesic rather than the dashed Euclidean chord; an inset shows Gaussian noise added in the tangent plane at the geodesic point mu_t and mapped back onto the sphere by the exponential map (Exp) to give x_t. Stage 2: the DiT&#39;s singular-value spectrum is split into high-sensitivity directions U_H (red) and low-sensitivity directions U_L (blue), which shape anisotropic noise on a tangent sheet, elongated along U_L, used to train a decoder, also marked with a flame. Generation: a noise ball of points on the sphere is transported by the DiT and decoded by the Decoder into the generated H&amp;E tiles.">
+             alt="Overview of STREAM in two stages. H&amp;E patches pass through a frozen UNI encoder, marked with an ice-blue snowflake, into a grid of patch tokens. Stage 1: the tokens lie on a unit hypersphere, where a trainable DiT, marked with a fire-coloured flame, learns to move a point from x0 to x1 along the SLERP geodesic rather than the dashed Euclidean chord; an inset shows Gaussian noise added in the tangent plane at the geodesic point mu_t and mapped back onto the sphere by the exponential map (Exp) to give x_t. Stage 2: the SVD of the DiT&#39;s velocity-field Jacobian splits directions into high-response directions U_H (red) and low-response directions U_L (blue), which shape anisotropic noise on a tangent sheet, elongated along U_L, used to train a decoder, also marked with a flame. Generation: a noise ball of points on the sphere is transported by the DiT and decoded by the Decoder into the generated H&amp;E tiles.">
         <figcaption>Overview of STREAM: frozen VFM tokens on the unit hypersphere, a DiT trained along bridge-perturbed geodesics, and an anisotropic decoder.</figcaption>
       </figure>
 
@@ -218,7 +227,7 @@
       <div class="method" id="decoder">
         <h3>Anisotropic decoder</h3>
         <div class="prose">
-          <p>RAE's isotropic decoder treats every token direction equally, yet not all directions matter equally for generation: UNI's effective rank is 252 while its token dimension is <span class="math"><i>d</i> = 1024</span>. We therefore train the decoder with anisotropic noise, choosing directions from the trained DiT's velocity-field Jacobian. The noise is shaped by the singular value decomposition (SVD) of that Jacobian: small noise along the high-response directions <span class="math sub-u">U<sub>H</sub></span> to preserve reconstruction fidelity, and large noise along the low-response directions <span class="math sub-l">U<sub>L</sub></span>, where the decoder spends its robustness budget.</p>
+          <p>Representation Autoencoder (RAE)<sup class="cite"><a href="#ref-20" aria-label="Reference 20">20</a></sup> is essentially the Euclidean baseline of our work as it utilizes VFM features as the diffusion latent. Its isotropic decoder that generates images treats every token direction equally, yet not all directions matter equally for generation: UNI's effective rank is 252 while its token dimension is <span class="math"><i>d</i> = 1024</span>. We therefore train the decoder with anisotropic noise, choosing directions from the trained DiT's velocity-field Jacobian. The noise is shaped by the singular value decomposition (SVD) of that Jacobian: small noise along the high-response directions <span class="math sub-u">U<sub>H</sub></span> to preserve reconstruction fidelity, and large noise along the low-response directions <span class="math sub-l">U<sub>L</sub></span>, where the decoder spends its robustness budget.</p>
         </div>
         <p class="eq"><span class="math">Σ<sub><span class="up">noise</span></sub> = σ<sub>H</sub><sup>2</sup> <span class="sub-u">U<sub>H</sub>U<sub>H</sub><sup>⊤</sup></span> + σ<sub>L</sub><sup>2</sup> <span class="sub-l">U<sub>L</sub>U<sub>L</sub><sup>⊤</sup></span>,</span> <span class="math">σ<sub>H</sub> ≪ σ<sub>L</sub></span></p>
         <figure class="clip" data-clip="decoder">
@@ -467,9 +476,9 @@
         <figcaption class="fig-caption">rFID and gFID on TCGA-BRCA (UNI encoder, 45K decoder steps), lower is better.</figcaption>
       </figure>
 
-      <h3 class="sub-title">Decoder sensitivity explains superadditivity</h3>
+      <h3 class="sub-title">The decoder's directional preference tracks superadditivity</h3>
       <div class="prose">
-        <p class="lead center">We next examine how and why this superadditivity arises. It has an empirical explanation in the decoder's directional sensitivity. <span class="math">R<sub><span class="up">dec</span></sub> = L<sub><span class="sub-u">U<sub>H</sub></span></sub> / L<sub><span class="sub-l">U<sub>L</sub></span></sub></span> compares the decoder's Learned Perceptual Image Patch Similarity (LPIPS)<sup class="cite"><a href="#ref-28" aria-label="Reference 28">28</a></sup> sensitivity along the high-response directions <span class="math sub-u">U<sub>H</sub></span> and the low-response directions <span class="math sub-l">U<sub>L</sub></span>. Anisotropic training moves the decoder's sensitivity further toward <span class="math sub-u">U<sub>H</sub></span>, and STREAM (bridge + anisotropic decoder) ends up the most <span class="math sub-u">U<sub>H</sub></span>-sensitive, compared with no bridge or the isotropic decoder.</p>
+        <p class="lead center">We next examine how and why this superadditivity arises. It has an empirical explanation in the decoder's directional preference. <span class="math">R<sub><span class="up">dec</span></sub> = L<sub><span class="sub-u">U<sub>H</sub></span></sub> / L<sub><span class="sub-l">U<sub>L</sub></span></sub></span> compares the decoder's Learned Perceptual Image Patch Similarity (LPIPS)<sup class="cite"><a href="#ref-28" aria-label="Reference 28">28</a></sup> sensitivity along the high-response directions <span class="math sub-u">U<sub>H</sub></span> and the low-response directions <span class="math sub-l">U<sub>L</sub></span>. Anisotropic training tilts the decoder's preference toward <span class="math sub-u">U<sub>H</sub></span>, and STREAM (bridge + anisotropic decoder) ends up with the strongest <span class="math sub-u">U<sub>H</sub></span> preference, compared with no bridge or the isotropic decoder.</p>
       </div>
       <figure class="rd">
         <ul class="rd-legend" aria-hidden="true">
@@ -483,7 +492,7 @@
             <div class="rd-row" role="listitem"><span class="rd-name">No bridge, <span class="math"><i>k</i><sup>∗</sup> = 232</span></span><span class="rd-track" aria-hidden="true" style="--a:58.9;--b:75.2"><span class="rd-seg"></span><span class="rd-mk rd-iso"></span><span class="rd-mk rd-aniso"></span><span class="rd-v rd-v-a">1.28</span><span class="rd-v rd-v-b">2.01</span></span><span class="sr-only">R_dec: isotropic 1.28, anisotropic 2.01</span></div>
         </div>
         <div class="rd-axis" aria-hidden="true"><span></span><span class="rd-ticks"><span style="left:0">0.25</span><span style="left:25%">0.5</span><span style="left:50%">1</span><span style="left:75%">2</span><span style="left:100%">4</span></span></div>
-        <div class="rd-axis rd-dir" aria-hidden="true"><span></span><span class="rd-dirs"><span class="sub-l">← more sensitive along U<sub>L</sub></span><span class="sub-u">more sensitive along U<sub>H</sub> →</span></span></div>
+        <div class="rd-axis rd-dir" aria-hidden="true"><span></span><span class="rd-dirs"><span class="sub-l">← decoder prefers U<sub>L</sub></span><span class="sub-u">decoder prefers U<sub>H</sub> →</span></span></div>
         <figcaption class="fig-caption"><span class="math">R<sub><span class="up">dec</span></sub></span> on TCGA-BRCA, log scale; <span class="math"><i>k</i> = 64</span> is a fixed split and <span class="math"><i>k</i><sup>∗</sup></span> each model's own energy cut.</figcaption>
       </figure>
       <details class="table-view">
@@ -505,7 +514,7 @@
         <p class="analysis">With the bridge, anisotropic training shifts <span class="math">R<sub><span class="up">dec</span></sub></span> further toward <span class="math sub-u">U<sub>H</sub></span> than without it at both splits (0.42 → 3.41 vs 0.62 → 2.50 at <span class="math"><i>k</i> = 64</span>, 1.12 → 2.31 vs 1.28 → 2.01 at <span class="math"><i>k</i><sup>∗</sup></span>), so the largest shift belongs to STREAM, consistent with its superadditive rFID and gFID gains.</p>
       </div>
 
-      <h3 class="sub-title">Decoder sensitivity visualized in pixel space</h3>
+      <h3 class="sub-title">Decoder response visualized in pixel space</h3>
       <div class="prose">
         <p class="lead center">Under a perturbation inside the top-64 subspace (<span class="math sub-u">U<sub>H</sub></span> at <span class="math"><i>k</i> = 64</span>), the anisotropic decoder separates from the isotropic one and responds more strongly. On <span class="math sub-l">U<sub>L</sub></span>, the control, no visual difference between the two decoders is observed.</p>
       </div>
@@ -517,7 +526,7 @@
                  alt="Grid of H&amp;E decodes and amplified difference maps for one generated latent, perturbed inside the top-64 subspace at the clean latent and amplitudes 1x, 4x, 8x, 32x, 64x and 128x. The anisotropic decoder (upper block) shows brighter difference maps and visibly changed tissue at the largest amplitudes; the isotropic decoder (lower block) shows fainter differences.">
           </picture>
         </a>
-        <figcaption>Anisotropic (upper) and isotropic (lower) bridge decoders decode the same latent perturbed in the top-64 block, not the deployed split, and <span class="math">|Δ|</span> rows show the amplified difference from the clean decode; nothing is visible at the deployed amplitude.</figcaption>
+        <figcaption>Anisotropic (upper) and isotropic (lower) bridge decoders decode the same latent perturbed in the top-64 block, not the deployed split, and <span class="math">|Δ|</span> rows show the amplified difference from the clean decode.</figcaption>
       </figure>
     </div>
   </section>

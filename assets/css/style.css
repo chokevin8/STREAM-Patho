@@ -36,6 +36,7 @@
   --font-body: "Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-math: "STIX Two Text", "Cambria Math", Cambria, "Times New Roman", serif;
   --font-mono: "Google Sans Code", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-emoji: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla", sans-serif;
 
   --radius: 12px;
   --radius-sm: 8px;
@@ -46,6 +47,8 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+/* in-page jumps (hero "On this page" pills, #top) stop a little short of the section edge */
+main > section[id] { scroll-margin-top: calc(.75rem + env(safe-area-inset-top, 0px)); }
 
 body {
   margin: 0;
@@ -104,6 +107,8 @@ p:last-child { margin-bottom: 0; }
   letter-spacing: -.015em; color: var(--ink);
 }
 .title .name { font-weight: 700; letter-spacing: -.01em; }
+/* the STREAM logo: the water wave emoji U+1F30A, title-sized, decorative (aria-hidden) */
+.title .logo { margin-right: .2em; font-family: var(--font-emoji); font-weight: 400; font-style: normal; letter-spacing: 0; }
 
 .authors {
   display: flex; flex-wrap: wrap; justify-content: center; gap: .15rem 1.6rem;
@@ -112,8 +117,14 @@ p:last-child { margin-bottom: 0; }
 }
 .affil { margin: .35rem 0 0; font: 400 1.05rem/1.5 var(--font-display); color: var(--muted); }
 .venue {
-  margin: .9rem 0 0; font: 500 1.1rem/1.4 var(--font-display); color: var(--ink); letter-spacing: .01em;
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: .2rem .45em;
+  margin: .9rem 0 0; font: 700 1.364rem/1.4 var(--font-display); color: var(--ink); letter-spacing: .01em;
 }
+/* official NeurIPS mark (neurips.cc navbar logo), 2.5x the line's cap-to-line height, centred on the text by align-items; flashlight emoji U+1F526 after "Spotlight" */
+.venue-logo { flex: none; width: auto; height: 2.75em; }
+.venue-mark { font-family: var(--font-emoji); font-weight: 400; line-height: 1; }
+/* phones: a slightly smaller line keeps logo + text + mark on one row (logo stays 2.75em of it) */
+@media (max-width: 440px) { .venue { font-size: 1.2rem; } }
 
 .links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 1.6rem 0 0; padding: 0; list-style: none; }
 .btn {
@@ -133,6 +144,16 @@ p:last-child { margin-bottom: 0; }
 }
 .btn.is-soon { cursor: default; }
 .btn.is-soon:hover { background: var(--btn); transform: none; box-shadow: none; }
+
+/* "On this page": a slim row of section pills under the teaser hook, above the TL;DR (same .pill style as the tabs) */
+.toc { margin: clamp(1.1rem, 2.4vw, 1.5rem) 0 0; }
+.toc ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.toc .pill { padding: .34rem .95rem; font-size: .9rem; text-decoration: none; }
+.toc .pill:hover { background: var(--accent-tint); }
+@media (max-width: 480px) {
+  .toc ul { gap: 6px; }
+  .toc .pill { gap: .45em; padding: .3rem .72rem; font-size: .85rem; }
+}
 
 /* ------------------------------------------------------------------ teaser: tile montage + hook */
 .teaser { padding-block: 0 clamp(2.75rem, 6vw, 4.25rem); }
@@ -487,7 +508,9 @@ details.refs-view .refs::before { display: none; }
 .back { display: inline-flex; align-items: center; gap: .45em; color: var(--ink); text-decoration: none; font: 500 1rem var(--font-display); padding: 4px 6px; border-radius: 6px; }
 .back:hover { color: var(--accent-text); }
 .back svg { width: 18px; height: 18px; }
-.topbar .venue-tag { font: 400 .92rem var(--font-display); color: var(--muted); }
+.topbar .venue-tag { display: inline-flex; align-items: center; gap: .4em; font: 400 .92rem var(--font-display); color: var(--muted); }
+.topbar .venue-logo { height: 1.35em; }
+@media (max-width: 440px) { .topbar .venue-logo { display: none; } }
 
 .gal-hero { padding-block: clamp(2.5rem, 6vw, 4rem) 1.25rem; text-align: center; }
 .gal-hero h1 { margin: 0; font: 500 clamp(1.8rem, 1.3rem + 2vw, 2.5rem)/1.2 var(--font-display); color: var(--ink); letter-spacing: -.01em; }
