@@ -234,7 +234,7 @@
     {
       "id": "coadread",
       "label": "TCGA-COADREAD",
-      "description": "Unconditional samples from STREAM trained on 3.4M TCGA-COADREAD patches (20×, 256×256).",
+      "description": "Unconditional samples from STREAM trained on 3.4M patches (20×, 256×256) from the colorectal cancer cohort of The Cancer Genome Atlas (TCGA), TCGA-COADREAD.",
       "images": [
         {
           "src": "assets/gallery/coadread/coadread_01.png",
@@ -462,7 +462,7 @@
     {
       "id": "spider-skin",
       "label": "SPIDER-skin",
-      "description": "Unconditional samples from STREAM trained on SPIDER-skin, an independent non-TCGA dataset.",
+      "description": "Unconditional samples from STREAM trained on 2.7M patches (20×, 256×256) from the skin cohort of SPIDER, an independent non-TCGA dataset, SPIDER-skin.",
       "images": [
         {
           "src": "assets/gallery/spider-skin/spider-skin_01.png",
