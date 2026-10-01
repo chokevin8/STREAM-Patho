@@ -4,10 +4,11 @@
       in view and only without prefers-reduced-motion; a pause/play toggle is always offered.
    3. Tiles: hero montage and gallery are driven by assets/gallery/manifest.json.
       Missing entries or images that fail to load render as grey placeholders. An entry's optional "webp" is
-      served to grid/montage tiles through <picture> (PNG "src" is the fallback); the lightbox always shows the PNG.
+      served to grid/montage tiles through <picture> (PNG "src" is the fallback). Tiles are plain images: no click,
+      no zoom, no lightbox (the samples are 256 px, so enlarging them only shows pixels).
    4. BibTeX copy button.
    5. ARIA tabs (arrow keys, Home/End), shared by the gallery (datasets, #hash) and the index page's figure tabs
-      ([data-tabs]); the gallery also has a <dialog> lightbox for real images.
+      ([data-tabs]).
    6. References: one collapsed <details id="refs-box"> per page. A superscript click or a #ref-N hash opens it
       first, so the browser can scroll to the entry and :target can tint it. Without JS the details still works. */
 (function () {
@@ -129,9 +130,8 @@
     return d;
   }
 
-  function imageTile(entry, organLabel, n, lazy, asButton) {
-    var t = el(asButton ? "button" : "figure", "tile");
-    if (asButton) t.type = "button";
+  function imageTile(entry, organLabel, n, lazy) {
+    var t = el("figure", "tile");
     var img = el("img");
     var host = t;
     if (entry.webp) {
@@ -145,8 +145,7 @@
     img.decoding = "async";
     if (lazy) img.loading = "lazy";
     host.appendChild(img);
-    if (asButton) t.setAttribute("aria-label", "Open " + organLabel + " sample " + n);
-    if (entry.caption && !asButton) {
+    if (entry.caption) {
       var cap = el("figcaption");
       cap.textContent = entry.caption;
       t.appendChild(cap);
@@ -180,7 +179,7 @@
       var li = el("li");
       if (it.entry && it.entry.src) {
         var label = it.organ ? it.organ.label : it.id;
-        var t = imageTile(it.entry, label, it.n, true, false);
+        var t = imageTile(it.entry, label, it.n, true);
         t.img.addEventListener("error", function () { t.node.replaceWith(emptyTile()); if (noteEl) noteEl.hidden = false; });
         li.appendChild(t.node);
       } else {
@@ -277,9 +276,6 @@
   function initGallery() {
     var root = $("#gallery");
     if (!root) return;
-    var lb = $("#lightbox"), lbImg = $("#lb-img"), lbCap = $("#lb-cap");
-    var current = { list: [], i: 0 };
-
     var tablist = $('[role="tablist"]', root);
     if (tablist) {
       var tl = initTablist(tablist, function (tab) {
@@ -290,32 +286,6 @@
       if (initial) tl.select(initial, false);
     }
 
-    function show(i) {
-      var item = current.list[i];
-      if (!item) return;
-      current.i = i;
-      lbImg.src = item.entry.src;
-      lbImg.alt = item.alt;
-      lbCap.textContent = item.label + " · sample " + item.n + (item.entry.caption ? " · " + item.entry.caption : "");
-    }
-    function open(list, i) {
-      current.list = list;
-      if (!lb || typeof lb.showModal !== "function") { window.open(list[i].entry.src, "_blank", "noopener"); return; }
-      show(i);
-      lb.showModal();
-    }
-    if (lb) {
-      $("#lb-prev").addEventListener("click", function () { show((current.i - 1 + current.list.length) % current.list.length); });
-      $("#lb-next").addEventListener("click", function () { show((current.i + 1) % current.list.length); });
-      $("#lb-close").addEventListener("click", function () { lb.close(); });
-      lb.addEventListener("keydown", function (e) {
-        if (e.key === "ArrowLeft") { e.preventDefault(); $("#lb-prev").click(); }
-        else if (e.key === "ArrowRight") { e.preventDefault(); $("#lb-next").click(); }
-      });
-      lb.addEventListener("click", function (e) { if (e.target === lb) lb.close(); });
-      lb.addEventListener("close", function () { lbImg.removeAttribute("src"); });
-    }
-
     function draw(m, ok) {
       var missing = 0;
       (m.organs || []).forEach(function (o) {
@@ -323,22 +293,17 @@
         var grid = $('[data-organ="' + o.id + '"]', root);
         if (!grid) return;
         grid.innerHTML = "";
-        var list = [];
         for (var i = 0; i < per; i++) {
           var entry = o.images ? o.images[i] : null;
           var li = el("li");
           if (entry && entry.src) {
-            var t = imageTile(entry, o.label, i + 1, i >= 10, true);
-            var item = { entry: entry, n: i + 1, label: o.label, alt: t.img.alt };
-            list.push(item);
-            (function (node, item, img) {
-              node.addEventListener("click", function () { open(list, list.indexOf(item)); });
+            var t = imageTile(entry, o.label, i + 1, i >= 10);
+            (function (node, img) {
               img.addEventListener("error", function () {
                 node.replaceWith(emptyTile());
-                var k = list.indexOf(item); if (k >= 0) list.splice(k, 1);
                 var pn = $("#placeholder-note"); if (pn) pn.hidden = false;
               });
-            })(t.node, item, t.img);
+            })(t.node, t.img);
             li.appendChild(t.node);
           } else {
             missing++;

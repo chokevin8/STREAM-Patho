@@ -517,13 +517,11 @@
         <p class="lead center">Under a perturbation inside the top-64 subspace (<span class="math sub-u">U<sub>H</sub></span> at <span class="math"><i>k</i> = 64</span>), the anisotropic decoder separates from the isotropic one and responds more strongly. On <span class="math sub-l">U<sub>L</sub></span> (figure not shown here, refer to main text), no visual difference between the two decoders is observed.</p>
       </div>
       <figure class="fig-img fig-pixel">
-        <a href="assets/img/dirlip_top64.jpg" class="fig-zoom" aria-label="Open the full-resolution figure">
-          <picture>
-            <source srcset="assets/img/dirlip_top64.webp" type="image/webp">
-            <img src="assets/img/dirlip_top64.jpg" width="2010" height="1125" loading="lazy" decoding="async"
-                 alt="Grid of H&amp;E decodes and amplified difference maps for one generated latent, perturbed inside the top-64 subspace at the clean latent and amplitudes 1x, 4x, 8x, 32x, 64x and 128x. The anisotropic decoder (upper block) shows brighter difference maps and visibly changed tissue at the largest amplitudes; the isotropic decoder (lower block) shows fainter differences.">
-          </picture>
-        </a>
+        <picture>
+          <source srcset="assets/img/dirlip_top64.webp" type="image/webp">
+          <img src="assets/img/dirlip_top64.jpg" width="2010" height="1125" loading="lazy" decoding="async"
+               alt="Grid of H&amp;E decodes and amplified difference maps for one generated latent, perturbed inside the top-64 subspace at the clean latent and amplitudes 1x, 4x, 8x, 32x, 64x and 128x. The anisotropic decoder (upper block) shows brighter difference maps and visibly changed tissue at the largest amplitudes; the isotropic decoder (lower block) shows fainter differences.">
+        </picture>
         <figcaption>Anisotropic (upper) and isotropic (lower) bridge decoders decode the same latent perturbed in the top-64 block, not the deployed split, and <span class="math">|Δ|</span> rows show the amplified difference from the clean decode.</figcaption>
       </figure>
     </div>

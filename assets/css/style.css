@@ -188,9 +188,6 @@ li:nth-child(5n + 4) > .tile.is-empty { background: #EDEFF2; }
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(135deg, rgba(255, 255, 255, .5), rgba(255, 255, 255, 0) 55%);
 }
-button.tile { display: block; width: 100%; padding: 0; border: 0; cursor: zoom-in; }
-button.tile img { transition: transform .35s var(--ease); }
-button.tile:hover img { transform: scale(1.03); }
 
 /* ------------------------------------------------------------------ motivation schematic */
 .flows { display: grid; gap: 14px; margin: 2rem auto 0; max-width: 900px; }
@@ -337,7 +334,6 @@ table.data tr.is-ours td { font-weight: 700; color: var(--ink); }
 .fig-pair-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(8px, 1.6vw, 16px); align-items: start; }
 @media (max-width: 640px) { .fig-pair-row { grid-template-columns: 1fr; max-width: 480px; margin-inline: auto; } }
 .fig-pair + .prose { margin-top: 1.6rem; } /* the effective-rank line under the Figure 3 pair */
-.fig-zoom { display: block; border-radius: var(--radius); cursor: zoom-in; }
 
 /* ------------------------------------------------------------------ motivation: beats, probe table, conclusion */
 .beats .lead + .lead { margin-top: 1.1em; }
@@ -537,27 +533,6 @@ details.refs-view .refs::before { display: none; }
 @media (max-width: 560px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; } }
 .grid .tile { border-radius: 8px; }
 .tile figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 1.2rem .6rem .45rem; font: 400 .78rem/1.3 var(--font-display); color: #fff; background: linear-gradient(transparent, rgba(0, 0, 0, .55)); text-align: left; }
-
-/* lightbox */
-dialog.lightbox {
-  width: min(92vw, 860px); max-height: 92vh; padding: 0; border: 0; border-radius: 14px;
-  background: #fff; color: var(--text); box-shadow: 0 24px 60px rgba(15, 23, 42, .28); overflow: hidden;
-}
-dialog.lightbox::backdrop { background: rgba(15, 23, 42, .62); }
-dialog.lightbox[open] { animation: lb-in .22s var(--ease); }
-@keyframes lb-in { from { opacity: 0; transform: scale(.985); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { dialog.lightbox[open] { animation: none; } button.tile img { transition: none; } }
-.lb-figure { margin: 0; }
-.lb-figure img { width: 100%; max-height: calc(92vh - 64px); object-fit: contain; background: #111; image-rendering: auto; }
-.lb-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px 10px 16px; }
-.lb-cap { font: 400 .92rem/1.35 var(--font-display); color: var(--text); }
-.lb-ctrl { display: flex; gap: 6px; flex: none; }
-.lb-btn {
-  display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 999px;
-  border: 1px solid var(--line-strong); background: #fff; color: var(--ink); cursor: pointer;
-}
-.lb-btn:hover { background: var(--accent-tint); border-color: var(--accent-border); }
-.lb-btn svg { width: 18px; height: 18px; }
 
 /* ------------------------------------------------------------------ forced colors */
 @media (forced-colors: active) {
