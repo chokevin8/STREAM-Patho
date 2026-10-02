@@ -142,8 +142,6 @@ p:last-child { margin-bottom: 0; }
   background: rgba(255, 255, 255, .14); color: rgba(255, 255, 255, .86);
   font: 500 .72rem/1 var(--font-display); letter-spacing: .02em;
 }
-.btn.is-soon { cursor: default; }
-.btn.is-soon:hover { background: var(--btn); transform: none; box-shadow: none; }
 
 /* "On this page": a slim row of section pills under the teaser hook, above the TL;DR (same .pill style as the tabs) */
 .toc { margin: clamp(1.1rem, 2.4vw, 1.5rem) 0 0; }

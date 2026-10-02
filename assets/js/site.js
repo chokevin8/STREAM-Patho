@@ -1,15 +1,14 @@
 /* STREAM project page v2: small, dependency-free behaviour shared by index.html and gallery.html.
-   1. Placeholder buttons (href="#") are marked "soon"; a real URL switches that off automatically.
-   2. Video slots: the placeholder frame stays until the video loads; autoplay (muted, loop) only when
+   1. Video slots: the placeholder frame stays until the video loads; autoplay (muted, loop) only when
       in view and only without prefers-reduced-motion; a pause/play toggle is always offered.
-   3. Tiles: hero montage and gallery are driven by assets/gallery/manifest.json.
+   2. Tiles: hero montage and gallery are driven by assets/gallery/manifest.json.
       Missing entries or images that fail to load render as grey placeholders. An entry's optional "webp" is
       served to grid/montage tiles through <picture> (PNG "src" is the fallback). Tiles are plain images: no click,
       no zoom, no lightbox (the samples are 256 px, so enlarging them only shows pixels).
-   4. BibTeX copy button.
-   5. ARIA tabs (arrow keys, Home/End), shared by the gallery (datasets, #hash) and the index page's figure tabs
+   3. BibTeX copy button.
+   4. ARIA tabs (arrow keys, Home/End), shared by the gallery (datasets, #hash) and the index page's figure tabs
       ([data-tabs]).
-   6. References: one collapsed <details id="refs-box"> per page. A superscript click or a #ref-N hash opens it
+   5. References: one collapsed <details id="refs-box"> per page. A superscript click or a #ref-N hash opens it
       first, so the browser can scroll to the entry and :target can tint it. Without JS the details still works. */
 (function () {
   "use strict";
@@ -35,24 +34,7 @@
     return n;
   }
 
-  /* ---------------------------------------------------------------- 1. placeholder buttons */
-  function initTodoLinks() {
-    $all("a[data-todo]").forEach(function (a) {
-      var href = (a.getAttribute("href") || "").trim();
-      if (href && href !== "#") {
-        a.classList.remove("is-soon");
-        a.removeAttribute("aria-disabled");
-        a.removeAttribute("title");
-        $all(".soon, .soon-sr", a).forEach(function (s) { s.remove(); });
-        return;
-      }
-      a.classList.add("is-soon");
-      a.setAttribute("aria-disabled", "true");
-      a.addEventListener("click", function (e) { e.preventDefault(); });
-    });
-  }
-
-  /* ---------------------------------------------------------------- 2. video slots */
+  /* ---------------------------------------------------------------- 1. video slots */
   var ICON_PAUSE = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6.5" y="5" width="4" height="14" rx="1"/><rect x="13.5" y="5" width="4" height="14" rx="1"/></svg>';
   var ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.2v13.6a.8.8 0 0 0 1.2.7l10.6-6.8a.8.8 0 0 0 0-1.4L9.2 4.5A.8.8 0 0 0 8 5.2z"/></svg>';
 
@@ -109,7 +91,7 @@
     });
   }
 
-  /* ---------------------------------------------------------------- 3. manifest-driven tiles */
+  /* ---------------------------------------------------------------- 2. manifest-driven tiles */
   function loadManifest() {
     if (!window.fetch) return Promise.resolve({ m: FALLBACK, ok: false });
     return fetch(MANIFEST_URL, { cache: "no-cache" })
@@ -201,7 +183,7 @@
     loadManifest().then(function (r) { draw(r.m); });
   }
 
-  /* ---------------------------------------------------------------- 4. BibTeX copy */
+  /* ---------------------------------------------------------------- 3. BibTeX copy */
   function initCopy() {
     $all("button[data-copy]").forEach(function (btn) {
       var target = $(btn.getAttribute("data-copy"));
@@ -232,7 +214,7 @@
     }
   }
 
-  /* ---------------------------------------------------------------- 5. ARIA tabs + gallery page */
+  /* ---------------------------------------------------------------- 4. ARIA tabs + gallery page */
   /* Wires one role="tablist": click or arrow keys select a tab, show its aria-controls panel and hide the others.
      onSelect(tab) runs after every selection. Returns { tabs, select }. */
   function initTablist(tablist, onSelect) {
@@ -328,7 +310,7 @@
     loadManifest().then(function (r) { draw(r.m, r.ok); });
   }
 
-  /* ---------------------------------------------------------------- 6. collapsed References list */
+  /* ---------------------------------------------------------------- 5. collapsed References list */
   function initRefs() {
     var box = document.getElementById("refs-box");
     if (!box) return;
@@ -353,7 +335,6 @@
   }
 
   function init() {
-    initTodoLinks();
     initClips();
     initIndexTiles();
     initCopy();
